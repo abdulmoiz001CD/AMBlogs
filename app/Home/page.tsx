@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Price_Sheet from './Price_Sheet';
 import ClientFeedbackSection from '@/app/components/ClientFeedback/ClientSection';
 import TopBlog from '@/app/components/TopBlog/TopBlog'
+import CommitComponent from '../components/Commit/CommitsSec';
 
 const TailwindComponentsSection = () => {
   return (
@@ -69,6 +70,7 @@ const TailwindComponentsSection = () => {
 
 <TopBlog/>
 
+<CommitComponent/>
   </div>
   );
 };
