@@ -1,255 +1,254 @@
+// 'use client'
 // import React from 'react';
+// import { client } from '@/sanity/lib/client';
+// import { useEffect, useState } from 'react';
+// import { useParams } from 'next/navigation';
 
-// interface Params {
-//     id: number,
-//     title: string,
-//     description: string,
-//     image: string,
+
+// interface BlogType {
+//   _id: string;
+//   title: string;
+//   content: string;
+//   slug: {
+//     current: string;
+//   };
+//   image: {
+//     asset: {
+//       _ref: string;
+//       _type: string;
+//       url: string;
+//     };
+//   };
+//   author: string;
+//   publishedDate: string;
 // }
 
-// const page = async ({
-//     params,
-// }: {
-//     params: Promise<{ id: string }>
-// }) => {
+// const Page = () => {
+//   const params = useParams();
+//   const slug = params.slug;
 
-//     const id = (await params).id
-//     console.log(id)
-//     // Dummy blog data for demonstration
-//     const blogs = [
-//         {
-//             id: 'blog1',
-//             title: 'Mastering React in 2024',
-//             description: 'Learn the latest features and best practices in React.',
-//             author: 'John Doe',
-//             dateOfBirth: '1985-03-15',
+//   const [blog, setBlog] = useState<BlogType | null>(null);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
 
-//             image: '/images/blog1.jpg'
-//         },
-//         {
-//             id: 'blog2',
-//             title: 'Tailwind CSS: Tips and Tricks',
-//             description: 'Boost your CSS workflow with Tailwind CSS utilities.',
-//             author: 'Jane Smith',
-//             dateOfBirth: '1990-06-22',
+//   useEffect(() => {
+//     if (!slug) return;
 
-//             image: '/images/blog2.jpg',
-//         },
-//         {
-//             id: 'blog3',
-//             title: 'JavaScript Performance Hacks',
-//             description: 'Optimize your JavaScript code for better performance.',
-//             author: 'Robert Brown',
-//             dateOfBirth: '1982-11-08',
+//     const fetchBlog = async () => {
+//       setLoading(true);
+//       setError(null);
+      
+//       try {
+//         // Fixed GROQ query syntax
+//         const data = await client.fetch(
+//           `*[_type == "blog" && slug.current == $slug][0] {
+//             _id,
+//             title,
+//             content,
+//             slug,
+//             image {
+//               asset-> {
+//                 _ref,
+//                 _type,
+//                 url
+//               }
+//             },
+//             author,
+//             publishedDate
+//           }`,
+//           { slug } 
+//         );
+        
+//         console.log('Slug:', slug);
+//         console.log('Fetched data:', data);
+        
+//         if (!data) {
+//           setError(`No blog found with slug: ${slug}`);
+//         } else {
+//           setBlog(data);
+//         }
+//       } catch (error) {
+//         console.error('Error fetching blog:', error);
+//         setError('Failed to fetch blog post');
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
-//             image: '/images/blog3.jpg',
-//         },
-//         {
-//             id: 'blog4',
-//             title: 'Exploring Node.js for Beginners',
-//             description: 'A beginner-friendly guide to backend development with Node.js.',
-//             author: 'Alice Johnson',
-//             dateOfBirth: '1995-02-11',
+//     fetchBlog();
+//   }, [slug]);
 
-//             image: '/images/blog4.jpg',
-//         },
-//         {
-//             id: 'blog5',
-//             title: 'Understanding TypeScript',
-//             description: 'Dive deep into TypeScript and improve your codebase.',
-//             author: 'Ethan Davis',
-//             dateOfBirth: '1978-09-25',
+//   if (loading) {
+//     return <div className="text-center p-4">Loading...</div>;
+//   }
 
-//             image: '/images/blog5.jpg',
-//         },
-//         {
-//             id: 'blog6',
-//             title: 'CSS Grid vs Flexbox',
-//             description: 'Which layout system should you choose and when?',
-//             author: 'Sophia Wilson',
-//             dateOfBirth: '1989-12-30',
-
-//             image: '/images/blog6.jpg',
-//         },
-//         {
-//             id: 'blog7',
-//             title: 'AI Trends in 2024',
-//             description: 'How AI is shaping the tech world in 2024.',
-//             author: 'Michael Taylor',
-//             dateOfBirth: '1983-05-17',
-
-//             image: '/images/blog7.jpg',
-//         },
-//         {
-//             id: 'blog8',
-//             title: 'Functional Programming in JavaScript',
-//             description: 'Leverage functional programming concepts in JavaScript.',
-//             author: 'Laura Martinez',
-//             dateOfBirth: '1975-04-02',
-
-//             image: '/images/blog8.jpg',
-//         },
-//         {
-//             id: 'blog9',
-//             title: 'Responsive Web Design Fundamentals',
-//             description: 'Create stunning responsive websites effortlessly.',
-//             author: 'Daniel White',
-//             dateOfBirth: '1992-07-14',
-
-//             image: '/images/blog9.jpg',
-//         },
-//         {
-//             id: 'blog10',
-//             title: 'Understanding Web Security',
-//             description: 'Protect your web applications from common vulnerabilities.',
-//             author: 'Emily Moore',
-//             dateOfBirth: '1980-10-05',
-//             image: '/images/blog10.jpg',
-//         },
-//     ];
-
-
-
-//     // Find the blog post based on the id
-//     const blog = blogs.find((post) => post.id === id);
-
-//     if (!blog) {
-//         return <p className="text-center text-gray-600">Blog post not found.</p>;
-//     }
-
+//   if (error) {
+//     return <div className="text-center text-red-600 p-4">{error}</div>;
+//   }
+  
+//   if (!blog) {
 //     return (
-//         <div className="min-h-screen">
-//             <div className="mx-auto">
-//                 {/* Blog Image */}
-//                 {blog.image && (
-//                     <img
-//                         src={blog.image}
-//                         alt={blog.title}
-//                         className="w-full h-[600px] object-cover"
-//                     />
-//                 )}
-
-//                 {/* Blog Content */}
-//                 <div className="p-8">
-//                     {/* Blog Title */}
-//                     <h1 className="text-4xl font-bold light:text-gray-900 mb-4">{blog.title}</h1>
-
-//                     {/* Author and Date of Birth */}
-//                     <div className="flex items-center light:text-gray-600 text-sm mb-6">
-//                         <span className="mr-4">
-//                             <strong>Author:</strong> {blog.author}
-//                         </span>
-//                         <span>
-//                             <strong>Date of Birth:</strong> {blog.dateOfBirth}
-//                         </span>
-//                     </div>
-
-//                     {/* Blog Paragraph */}
-//                     <p className="light:text-gray-700 text-lg leading-relaxed">{blog.description}
-//                         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facilis, fugit accusantium vero iusto cumque corrupti deserunt voluptates quasi. Culpa ea repellat distinctio, iure adipisci facilis quasi neque doloribus cum magni error, natus, fugit fuga beatae? Omnis hic recusandae autem quia quod sequi explicabo nulla officia cupiditate non natus suscipit rem doloremque vitae facere at, assumenda eaque quaerat excepturi accusamus quo! Nam excepturi vel in dignissimos eveniet recusandae corrupti atque modi quisquam ad nemo voluptates, omnis necessitatibus beatae sint saepe, rerum temporibus quam harum fuga. Asperiores sint error laboriosam modi atque architecto consequatur dolores reiciendis? Autem architecto praesentium nulla. Animi impedit et voluptatibus sint perferendis odit voluptate adipisci reprehenderit, nemo minima enim necessitatibus ipsum nam error eligendi sit commodi accusamus dicta accusantium magni nulla veniam nesciunt minus incidunt. Adipisci, consequuntur alias autem doloremque accusantium fugiat rerum numquam corporis maiores, voluptatem deleniti repudiandae suscipit aperiam optio ad obcaecati iste at non eaque quibusdam animi? A nulla incidunt voluptate unde, cumque dicta culpa suscipit labore doloribus illum magnam obcaecati quibusdam tenetur illo in eos consectetur provident omnis atque repellat sit! Iste voluptas beatae amet aperiam similique itaque, rem aliquam. Ipsam facilis, repudiandae expedita, ad corporis harum minus impedit ut omnis quisquam quas repellendus repellat deserunt provident eum quia, eius ea nulla. Id itaque dolore molestiae eos facere? Veniam cum explicabo voluptatum velit sapiente, repudiandae itaque maiores, dolorem, vero ratione ducimus consectetur hic corporis blanditiis eius aut ut reiciendis eligendi iste libero repellat! At illum asperiores facere dolor soluta nam quae inventore recusandae? Neque corporis voluptatem, recusandae quisquam distinctio perferendis obcaecati! Rerum quisquam officia iusto cum soluta maiores provident, quod omnis, eaque possimus hic aut rem sapiente fugiat unde eos, commodi dolore! Architecto harum, unde ipsa quo temporibus dolore nisi molestias excepturi sunt? Eaque placeat animi dignissimos autem, sed quis tempore quibusdam non praesentium.
-//                     </p>
-//                     <p className="light:text-gray-700 text-lg leading-relaxed pt-3">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque magni voluptatibus nisi, non, esse aperiam maiores, beatae impedit atque accusantium alias facere labore architecto voluptatem distinctio incidunt eaque! Molestiae expedita optio quas incidunt laborum cum velit repellat corrupti sequi et quibusdam reprehenderit iusto, perferendis ipsam assumenda tenetur quam officia unde dicta? Dolorem commodi eos laudantium, pariatur corporis accusamus earum numquam nostrum sapiente repellendus, sit enim esse voluptate magni iusto nulla adipisci aliquam facere accusantium expedita nesciunt vel ab. Iure harum, culpa reiciendis laudantium voluptate velit ipsa ut explicabo nostrum distinctio similique fugiat ullam eligendi temporibus tenetur quibusdam voluptas incidunt eaque, deleniti veritatis iusto fuga laborum tempora. Consectetur sit unde aperiam tenetur, laboriosam hic quaerat mollitia quia accusamus similique recusandae veniam voluptatum! Suscipit doloremque temporibus voluptatem tenetur laudantium ab architecto explicabo nulla voluptatibus voluptas assumenda soluta commodi, ea, aperiam similique repellendus id deserunt corrupti vitae perspiciatis eligendi animi nesciunt maxime! Aspernatur provident impedit atque a ipsum, molestias optio illo reprehenderit aut consectetur quia sunt fuga hic dolore sit accusantium qui ad perspiciatis laboriosam numquam tenetur necessitatibus. Iusto eos dolorem ab error, ipsa unde dignissimos qui perferendis exercitationem sed sunt veritatis modi tempora obcaecati consequatur aspernatur ratione dolore quod dolor quaerat nesciunt?</p>
-//                 </div>
-//             </div>
-//         </div>
-
-
+//       <div className="text-center p-4">
+//         <p className="text-gray-600">Blog post not found</p>
+//         <p className="text-gray-400">Slug: {slug}</p>
+//       </div>
 //     );
-// };
+//   }
 
-// export default page;
+//   return (
+//     <div className="min-h-screen max-w-4xl mx-auto px-4">
+//       <div className="py-8">
+//         {blog.image && blog.image.asset && (
+//           <img
+//             src={blog.image.asset.url}
+//             alt={blog.title}
+//             className="w-full h-[400px] object-center rounded-lg mb-8"
+//           />
+//         )}
+
+//         <div className="space-y-6">
+//           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+//             {blog.title}
+//           </h1>
+
+//           <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+//             {blog.author && (
+//               <span className="mr-4">
+//                 <strong>Author:</strong> {blog.author}
+//               </span>
+//             )}
+//             {blog.publishedDate && (
+//               <span>
+//                 <strong>Date:</strong> {new Date(blog.publishedDate).toLocaleDateString()}
+//               </span>
+//             )}
+//           </div>
+
+//           <div className="prose max-w-none dark:prose-invert">
+//             {blog.content}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Page;
 
 
-import { GetStaticProps, GetStaticPaths } from 'next';
+
 import { client } from '@/sanity/lib/client';
+import { notFound } from 'next/navigation';
 
-interface BlogPost {
+interface BlogType {
+  _id: string;
   title: string;
   content: string;
+  slug: {
+    current: string;
+  };
+  image: {
+    asset: {
+      _ref: string;
+      _type: string;
+      url: string;
+    };
+  };
   author: string;
   publishedDate: string;
-  imageUrl: string;
 }
 
-interface BlogProps {
-  blog: BlogPost;
+async function getBlogPost(slug: string): Promise<BlogType | null> {
+  try {
+    const data = await client.fetch(
+      `*[_type == "blog" && slug.current == $slug][0] {
+        _id,
+        title,
+        content,
+        slug,
+        image {
+          asset-> {
+            _ref,
+            _type,
+            url
+          }
+        },
+        author,
+        publishedDate
+      }`,
+      { slug }
+    );
+    return data;
+  } catch (error) {
+    console.error('Error fetching blog:', error);
+    return null;
+  }
 }
 
-const BlogPage = ({ blog }: BlogProps) => {
+export async function generateStaticParams() {
+  try {
+    const query = `*[_type == "blog"] {
+      "slug": slug.current
+    }`;
+    const blogs = await client.fetch(query);
+    
+    // Add error checking and filtering
+    return blogs
+      .filter((blog: { slug: string }) => blog.slug) // Filter out any null slugs
+      .map((blog: { slug: string }) => ({
+        slug: blog.slug,
+      }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return []; // Return empty array if there's an error
+  }
+}
+
+async function BlogPost({ params }: { params: { slug: string } }) {
+  const blog = await getBlogPost(params.slug);
+
   if (!blog) {
-    return <p>Blog not found</p>;
+    notFound();
   }
 
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto">
-        {/* Blog Image */}
-        {blog.imageUrl && (
-          <img
-            src={blog.imageUrl}
-            alt={blog.title}
-            className="w-full h-[600px] object-cover"
-          />
+    <div className="min-h-screen max-w-4xl mx-auto px-4">
+      <div className="py-8">
+        {blog.image && blog.image.asset && (
+          <div className="relative w-full h-[400px] mb-8">
+            <img
+              src={blog.image.asset.url}
+              alt={blog.title}
+              className="w-full h-[400px] object-center rounded-lg mb-8"
+            />
+          </div>
         )}
 
-        {/* Blog Content */}
-        <div className="p-8">
-          {/* Blog Title */}
-          <h1 className="text-4xl font-bold mb-4">{blog.title}</h1>
+        <div className="space-y-6">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            {blog.title}
+          </h1>
 
-          {/* Author and Date */}
-          <div className="flex items-center text-gray-600 text-sm mb-6">
-            <span className="mr-4">
-              <strong>Author:</strong> {blog.author}
-            </span>
-            <span>
-              <strong>Published Date:</strong> {blog.publishedDate}
-            </span>
+          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+            {blog.author && (
+              <span className="mr-4">
+                <strong>Author:</strong> {blog.author}
+              </span>
+            )}
+            {blog.publishedDate && (
+              <span>
+                <strong>Date:</strong> {new Date(blog.publishedDate).toLocaleDateString()}
+              </span>
+            )}
           </div>
 
-          {/* Blog Content */}
-          <p className="text-gray-700 text-lg leading-relaxed">{blog.content}</p>
+          <div className="prose max-w-none dark:prose-invert">
+            {blog.content}
+          </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
-// Generate dynamic paths for blogs
-export const getStaticPaths: GetStaticPaths = async () => {
-  const query = `*[_type == "blog"]{ "slug": slug.current }`;
-  const blogs = await client.fetch(query);
-
-  const paths = blogs.map((blog: { slug: string }) => ({
-    params: { slug: blog.slug },
-  }));
-
-  return { paths, fallback: 'blocking' };
-};
-
-// Fetch data for each blog post
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { slug } = context.params as { slug: string };
-  const query = `*[_type == "blog" && slug.current == $slug][0]{
-    title,
-    content,
-    author,
-    publishedDate,
-    "imageUrl": image.asset->url
-  }`;
-
-  const blog = await client.fetch(query, { slug });
-
-  if (!blog) {
-    return { notFound: true };
-  }
-
-  return {
-    props: {
-      blog,
-    },
-    revalidate: 60, // Regenerate page every 60 seconds
-  };
-};
-
-export default BlogPage;
+export default BlogPost;

@@ -8,7 +8,7 @@ const TopBlog = () => {
 
     const blogs = [
         {
-            id: 'blog1',
+            id: '1',
             title: 'Mastering React in 2024',
             description: 'Learn the latest features and best practices in React.',
             author: 'John Doe',
@@ -17,7 +17,7 @@ const TopBlog = () => {
             image: '/images/blog1.jpg'
         },
         {
-            id: 'blog2',
+            id: '2',
             title: 'Tailwind CSS: Tips and Tricks',
             description: 'Boost your CSS workflow with Tailwind CSS utilities.',
             author: 'Jane Smith',
@@ -26,7 +26,7 @@ const TopBlog = () => {
             image: '/images/blog2.jpg',
         },
         {
-            id: 'blog3',
+            id: '3',
             title: 'JavaScript Performance Hacks',
             description: 'Optimize your JavaScript code for better performance.',
             author: 'Robert Brown',
@@ -35,7 +35,7 @@ const TopBlog = () => {
             image: '/images/blog3.jpg',
         },
         {
-            id: 'blog4',
+            id: '4',
             title: 'Exploring Node.js for Beginners',
             description: 'A beginner-friendly guide to backend development with Node.js.',
             author: 'Alice Johnson',
@@ -44,7 +44,7 @@ const TopBlog = () => {
             image: '/images/blog4.jpg',
         },
         {
-            id: 'blog5',
+            id: '5',
             title: 'Understanding TypeScript',
             description: 'Dive deep into TypeScript and improve your codebase.',
             author: 'Ethan Davis',
@@ -53,7 +53,7 @@ const TopBlog = () => {
             image: '/images/blog5.jpg',
         },
         {
-            id: 'blog6',
+            id: '6',
             title: 'CSS Grid vs Flexbox',
             description: 'Which layout system should you choose and when?',
             author: 'Sophia Wilson',
@@ -62,7 +62,7 @@ const TopBlog = () => {
             image: '/images/blog6.jpg',
         },
         {
-            id: 'blog7',
+            id: '7',
             title: 'AI Trends in 2024',
             description: 'How AI is shaping the tech world in 2024.',
             author: 'Michael Taylor',

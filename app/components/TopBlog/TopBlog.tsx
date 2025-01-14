@@ -1,6 +1,6 @@
 import React from 'react';
 import BlogCard from '@/app/components/TopBlog/BlogCard'
-import Link from 'next/link';
+
 
 
 const TopBlog = () => {
@@ -35,9 +35,9 @@ const TopBlog = () => {
         
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog, index) => (
-          <Link href={`/components/BlogPost/${blog.id}`} key={index}>
-          <BlogCard {...blog} />
-        </Link>
+          
+          <BlogCard key={index} {...blog} />
+     
           ))}
         </div>
       </div>
