@@ -59,6 +59,7 @@ const TailwindComponentsSection = () => {
           alt="tailwind css components"
           width={600}
           height={400}
+          priority
           className="w-full h-full max-w-md mx-auto"
         />
       </div>
