@@ -14,6 +14,12 @@ import {schema} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
 
 export default defineConfig({
+  cors: {
+    allowCredentials: true,
+    allowHeaders: ['Origin', 'Content-Type', 'Accept', 'Authorization'],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'HEAD', 'OPTIONS'],
+    allowOrigins: ['http://localhost:3000']
+  },
   basePath: '/studio',
   projectId,
   dataset,

@@ -83,11 +83,18 @@ const TopBlog = () => {
           Explore our most popular blogs and stay updated with the latest trends.
         </p>
          
-        <Link href="/components/BlogPost/write">
+{/* <Link href="/components/BlogPost/write">
   <div className="relative">
-    <FaPen className="text-[1.4rem] hover:bg-white absolute top-0 right-7" />
+    <FaPen className="text-[2.4rem] p-2 bg-[#a59393] border border-gray-800 rounded-md hover:bg-white absolute top-[-5rem] right-7" />
+  </div>
+</Link> */}
+<Link href="/components/BlogPost/write">
+  <div className="relative">
+    <FaPen className="text-[2.4rem] p-2 bg-[#a59393] border border-gray-800 rounded-md hover:bg-white 
+      fixed top-[10rem] right-[3rem] z-10" />
   </div>
 </Link>
+
 
          
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
