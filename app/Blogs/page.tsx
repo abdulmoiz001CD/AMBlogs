@@ -1,7 +1,7 @@
 import React from 'react';
 import BlogCard from '@/app/components/TopBlog/BlogCard'
 import Link from 'next/link';
-
+import { FaPen } from "react-icons/fa6";
 
 const TopBlog = () => {
 
@@ -82,7 +82,14 @@ const TopBlog = () => {
         <p className="mt-4 text-lg">
           Explore our most popular blogs and stay updated with the latest trends.
         </p>
-        
+         
+        <Link href="/components/BlogPost/write">
+  <div className="relative">
+    <FaPen className="text-[1.4rem] hover:bg-white absolute top-0 right-7" />
+  </div>
+</Link>
+
+         
         <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogs.map((blog, index) => (
           <Link href={`/components/BlogPost/${blog.id}`} key={index}>
