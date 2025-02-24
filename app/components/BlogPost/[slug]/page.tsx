@@ -23,7 +23,7 @@ interface BlogType {
 async function getBlogPost(slug: string): Promise<BlogType | null> {
   try {
     const data = await client.fetch(
-      `*[_type == "blog" && slug.current == $slug][0] {
+      `*[_type == "post" && slug.current == $slug][0] {
         _id,
         title,
         content,
@@ -49,7 +49,7 @@ async function getBlogPost(slug: string): Promise<BlogType | null> {
 
 export async function generateStaticParams() {
   try {
-    const query = `*[_type == "blog"] {
+    const query = `*[_type == "post"] {
       "slug": slug.current
     }`;
     const blogs = await client.fetch(query);

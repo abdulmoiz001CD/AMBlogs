@@ -1,36 +1,3 @@
-// 'use client';
-
-// import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-// // Define the type for a cart item
-// interface CartItem {
-//   id: string; // Assuming the item has an `id` of type string
-//   name: string; // Example property for the item's name
-//   price: number; // Example property for the item's price
-// }
-
-// // Define the initial state type as an array of `CartItem`
-// const initialState: CartItem[] = [];
-
-// const cartSlice = createSlice({
-//   name: 'Cart',
-//   initialState,
-//   reducers: {
-//     // Add to cart with a properly typed action payload
-//     addtoCart(state, action: PayloadAction<CartItem>) {
-//       state.push(action.payload);
-//     },
-//     // Remove from cart using the `id` property
-//     remove(state, action: PayloadAction<string>) {
-//       return state.filter((item) => item.id !== action.payload);
-//     },
-//   },
-// });
-
-// export const { addtoCart, remove } = cartSlice.actions;
-// export default cartSlice.reducer;
-
-
 'use client';
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -39,7 +6,14 @@ interface CartItem {
     id: string;
     title: string;
     description: string;
-    image: string;
+    // image: {
+    //     asset: {
+    //       _ref: string;
+    //       _type: string;
+    //       url: string;
+    //     };
+    //   };
+    image: string; // Change this to accept just the URL string
 }
 
 interface CartState {
